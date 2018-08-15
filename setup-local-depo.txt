@@ -1,0 +1,14 @@
+wget -nv http://public-repo-1.hortonworks.com/ambari/centos7/2.x/updates/2.6.2.2/ambari.repo -O /etc/yum.repos.d/ambari.repo
+
+reposync -r ambari-2.6.2.2
+
+wget -nv http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.5.0/hdp.repo -O /etc/yum.repos.d/hdp.repo
+
+reposync -r HDP-2.6.5.0
+reposync -r HDP-UTILS-2.6.5.0
+
+wget -nv http://public-repo-1.hortonworks.com/HDP/centos7/3.x/updates/3.2.0.0/hdf.repo -O /etc/yum.repos.d/hdf.repo
+
+reposync -r HDF-3.2.0.0
+
+createrepo /var/www/html/ambari/centos7/ambari-2.6.2.2

@@ -1,0 +1,37 @@
+yum install mysql-connector-java*
+ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar 
+
+CREATE DATABASE hive;
+CREATE DATABASE ranger;
+CREATE DATABASE rangerkms;
+CREATE DATABASE oozie;
+create database registry;
+create database streamline;
+CREATE DATABASE druid DEFAULT CHARACTER SET utf8;
+CREATE DATABASE superset DEFAULT CHARACTER SET utf8;
+
+CREATE USER 'hive'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON *.* TO 'hive'@'%';
+
+CREATE USER 'oozie'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON *.* TO 'oozie'@'%';
+
+CREATE USER 'ranger'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON *.* TO 'ranger'@'%';
+
+CREATE USER 'rangerkms'@'%' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON *.* TO 'rangerkms'@'%';
+
+CREATE USER 'registry'@'%' IDENTIFIED BY '123';
+CREATE USER 'streamline'@'%' IDENTIFIED BY '123';
+
+GRANT ALL PRIVILEGES ON registry.* TO 'registry'@'%' WITH GRANT OPTION ;
+GRANT ALL PRIVILEGES ON streamline.* TO 'streamline'@'%' WITH GRANT OPTION ;
+
+CREATE USER 'druid'@'%' IDENTIFIED BY '123';
+CREATE USER 'superset'@'%' IDENTIFIED BY '123';
+
+GRANT ALL PRIVILEGES ON *.* TO 'druid'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'superset'@'%' WITH GRANT OPTION;
+
+commit;

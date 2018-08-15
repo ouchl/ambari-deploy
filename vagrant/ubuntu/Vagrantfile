@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # List of worker nodes to setup
+  worker_nodes = [:node1, :node2, :node3]
+  # worker_nodes = [:node1]
+
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "ubuntu/trusty64"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # If true, then any SSH connections made will enable agent forwarding.
+  # Default value: false
+  config.ssh.forward_agent = true
+  config.ssh.keep_alive = true
+  config.ssh.insert_key = false
+
+  # enable vagrant-hostmanager
+  config.hostmanager.enabled = false
+  config.hostmanager.manage_host = true
+  config.hostmanager.include_offline = true
+  config.hostmanager.ignore_private_ip = false
+
+  # CLUSTER CONFIGURATION
+  config.vm.provision "file", source: "./vagrant", destination: "~/.ssh/id_rsa"
+  config.vm.provision "file", source: "./vagrant.pub", destination: "~/.ssh/id_rsa.pub"
+
+  worker_nodes.each_with_index do |node, index|
+    config.vm.define node do |n|
+      n.vm.provider :virtualbox do |v|
+        v.name = node.to_s
+        v.cpus = 6
+        v.customize ["modifyvm", :id, "--memory", "8096"]
+      end
+      n.vm.network :private_network, ip: "192.168.33.#{12 + index}"
+      n.vm.hostname = node.to_s
+      n.vm.provision :shell, path: "provision_hosts.sh"
+      n.vm.provision :hostmanager
+      
+    end
+  end
+end
