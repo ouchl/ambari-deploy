@@ -1,6 +1,10 @@
 yum install mysql-connector-java*
 ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar 
 
+yum install mariadb-server
+systemctl start mariadb
+systemctl enable mariadb
+
 CREATE DATABASE hive;
 CREATE DATABASE ranger;
 CREATE DATABASE rangerkms;
