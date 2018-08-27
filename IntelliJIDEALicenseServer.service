@@ -1,0 +1,13 @@
+[Unit]
+Description=Intellij
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/IntelliJIDEALicenseServer_linux_amd64
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target
